@@ -1,0 +1,817 @@
+```html
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MR-MÊKÖ Bhai - Multi-Platform Video Downloader</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#070709',
+                        cardbg: '#111116',
+                        inputbg: '#1a1a22',
+                        fireRed: '#ff1e27',
+                        crimsonDark: '#990006',
+                        goldCrown: '#fbbf24'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Hind Siliguri', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts: Inter & Hind Siliguri -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Hind Siliguri', 'Inter', sans-serif;
+            background-color: #070709;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Fiery Neon Glow & Fire Border Animation */
+        .fire-glow {
+            box-shadow: 0 0 35px -5px rgba(255, 30, 39, 0.45);
+        }
+
+        .gold-glow {
+            box-shadow: 0 0 20px -3px rgba(251, 191, 36, 0.5);
+        }
+
+        .gaming-border {
+            border: 1px solid rgba(255, 30, 39, 0.35);
+        }
+
+        .ad-placeholder-bg {
+            background-image: repeating-linear-gradient(45deg, #181822 0, #181822 12px, #0e0e14 12px, #0e0e14 24px);
+        }
+
+        /* Text Gradients */
+        .gradient-fire-text {
+            background: linear-gradient(135deg, #ffffff 0%, #ff4d52 50%, #ff1e27 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-gold-text {
+            background: linear-gradient(135deg, #fffbeb 0%, #fbbf24 60%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070709;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff1e27;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dc2626;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-red-600 selection:text-white">
+
+    <!-- Top Announcement / Channel Tagline Bar -->
+    <div class="bg-gradient-to-r from-red-950 via-red-600/30 to-red-950 border-b border-red-600/30 text-xs sm:text-sm text-center py-2 px-4 text-red-200 flex items-center justify-center gap-2">
+        <i class="fa-solid fa-fire text-red-500 animate-bounce"></i>
+        <span id="top-bar-text" data-en="🔥 Welcome to MR-MÊKÖ Bhai Downloader • Free High Speed Video Downloads" data-bn="🔥 MR-MÊKÖ Bhai ডাউনলোডারে স্বাগতম • ওয়াটারমার্ক ছাড়া ১০০% ফ্রি HD ডাউনলোড">
+            🔥 MR-MÊKÖ Bhai ডাউনলোডারে স্বাগতম • ওয়াটারমার্ক ছাড়া ১০০% ফ্রি HD ডাউনলোড
+        </span>
+        <i class="fa-solid fa-fire text-red-500 animate-bounce"></i>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-darkbg/90 backdrop-blur-md border-b border-red-900/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            
+            <!-- Brand Logo & Channel Name (Links directly to YouTube channel) -->
+            <a href="https://youtube.com/@mehedi-creation-v2w?si=4XwI8rQjPv2j1JqA" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 font-extrabold text-lg sm:text-xl tracking-tight text-white group">
+                <!-- Mini Avatar Badge -->
+                <div class="relative w-10 h-10 rounded-full bg-red-950 border-2 border-red-500 p-0.5 shadow-lg group-hover:scale-105 transition-transform flex items-center justify-center overflow-hidden">
+                    <div class="w-full h-full rounded-full bg-gradient-to-br from-red-600 to-black flex items-center justify-center text-amber-400">
+                        <i class="fa-solid fa-crown text-xs"></i>
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <span class="font-black text-white tracking-wider text-base sm:text-lg flex items-center gap-1">
+                        MR-MÊKÖ <span class="text-red-500">Bhai</span>
+                        <i class="fa-solid fa-[#fbbf24] fa-crown text-amber-400 text-xs"></i>
+                    </span>
+                    <span class="text-[9px] text-zinc-400 tracking-widest uppercase font-mono">Gaming Downloader</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-400">
+                <a href="#downloader" class="hover:text-red-400 transition-colors text-white" data-en="Downloader" data-bn="ডাউনলোডার">ডাউনলোডার</a>
+                <a href="#supported-platforms" class="hover:text-red-400 transition-colors" data-en="Platforms" data-bn="প্ল্যাটফর্ম">প্ল্যাটফর্ম</a>
+                <a href="#how-to-use" class="hover:text-red-400 transition-colors" data-en="How to Use" data-bn="ব্যবহার পদ্ধতি">ব্যবহার পদ্ধতি</a>
+                <a href="#faq" class="hover:text-red-400 transition-colors" data-en="FAQ" data-bn="প্রশ্নোত্তর">প্রশ্নোত্তর</a>
+            </nav>
+
+            <!-- Actions: Language Toggle & YouTube Subscribe Link -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <a href="https://youtube.com/@mehedi-creation-v2w?si=4XwI8rQjPv2j1JqA" target="_blank" rel="noopener noreferrer" class="hidden sm:flex items-center gap-1.5 bg-red-600 hover:bg-red-700 text-white text-xs px-3.5 py-1.5 rounded-lg border border-red-500 shadow-lg hover:scale-105 transition-all font-bold">
+                    <i class="fa-brands fa-youtube text-white text-sm"></i>
+                    <span data-en="Subscribe" data-bn="সাবস্ক্রাইব">সাবস্ক্রাইব</span>
+                </a>
+
+                <button id="lang-toggle-btn" class="flex items-center gap-1.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs px-3 py-1.5 rounded-lg border border-zinc-700 transition-colors">
+                    <i class="fa-solid fa-globe text-red-500"></i>
+                    <span id="lang-label">English</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+
+        <!-- ================================================================= -->
+        <!-- AD SLOT #1: HEADER TOP LEADERBOARD BANNER (728x90 / Mobile Banner)-->
+        <!-- ================================================================= -->
+        <div class="max-w-5xl mx-auto px-4 mt-6">
+            <!-- 
+               [MONETIZATION NOTE]: Paste your Google AdSense / Adsterra / PropellerAds Banner Code Below.
+               Example: <script type="text/javascript" src="//your-ad-network-script.js"></script>
+            -->
+            <div class="ad-placeholder-bg rounded-xl border border-red-900/40 p-3 text-center flex flex-col items-center justify-center min-h-[90px] relative overflow-hidden">
+                <span class="text-[9px] uppercase font-bold tracking-widest text-red-400/80 mb-1">Sponsored Advertisement</span>
+                <div class="text-xs text-zinc-400 flex items-center gap-2">
+                    <i class="fa-solid fa-rectangle-ad text-red-500"></i>
+                    <span>[Ad Space #1 - Top Leaderboard Banner (728x90) - Paste Ad Script Here]</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- HERO SECTION WITH GAMING BRANDING -->
+        <section id="downloader" class="relative py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
+            
+            <!-- Red Fire Background Glow Effect -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] h-[30rem] bg-red-600/15 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+            <!-- Gaming Avatar Emblem Frame -->
+            <div class="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto mb-6">
+                <!-- Glowing Outer Ring -->
+                <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-red-600 via-amber-500 to-red-600 animate-spin blur-md opacity-75" style="animation-duration: 8s;"></div>
+                
+                <!-- Inner Emblem Wrapper -->
+                <div class="relative w-full h-full rounded-full bg-black border-4 border-red-600 p-1 flex items-center justify-center shadow-2xl overflow-hidden fire-glow">
+                    
+                    <!-- USER LOGO IMAGE CONTAINER -->
+                    <!-- Note: Put '1000068776.png' in the same folder as index.html to load your exact image -->
+                    <img 
+                        src="1000068776.png" 
+                        onerror="this.onerror=null; this.src='https://placehold.co/400x400/070709/ef4444?text=MR-MEKO+BHAI';" 
+                        alt="MR-MÊKÖ Bhai Gaming Logo" 
+                        class="w-full h-full object-cover rounded-full"
+                    >
+
+                    <!-- Top Crown Badge Overlay -->
+                    <div class="absolute -top-1 bg-black/90 border border-amber-500/50 text-amber-400 text-xs px-2 py-0.5 rounded-full shadow-lg flex items-center gap-1 font-bold">
+                        <i class="fa-solid fa-crown text-amber-400"></i>
+                        <span>PRO</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gaming Channel Title -->
+            <div class="space-y-3 mb-8">
+                <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase">
+                    <span class="gradient-fire-text">MR-MÊKÖ Bhai</span>
+                </h1>
+                
+                <!-- Tagline / Subscribe Button Link -->
+                <a href="https://youtube.com/@mehedi-creation-v2w?si=4XwI8rQjPv2j1JqA" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 bg-red-950/80 hover:bg-red-900 border border-red-600/40 hover:border-red-500 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold text-red-200 shadow-md transition-all hover:scale-105">
+                    <i class="fa-brands fa-youtube text-red-500 text-base animate-pulse"></i>
+                    <span>LIKE • SHARE • SUBSCRIBE</span>
+                </a>
+
+                <p class="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto mt-2" data-en="Fastest Social Media Video Downloader for YouTube, Facebook, TikTok & Instagram." data-bn="YouTube, Facebook, TikTok এবং Instagram থেকে উচ্চ কোয়ালিটির ভিডিও ডাউনলোড করুন এক ক্লিকে।">
+                    YouTube, Facebook, TikTok এবং Instagram থেকে উচ্চ কোয়ালিটির ভিডিও ডাউনলোড করুন এক ক্লিকে।
+                </p>
+            </div>
+
+            <!-- Platform Tabs -->
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-6">
+                <button data-platform="auto" class="platform-tab active flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-red-600 to-rose-700 text-white shadow-lg transition-all border border-red-500">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span data-en="Auto Detect" data-bn="স্বয়ংক্রিয় ডিটেক্ট">স্বয়ংক্রিয় ডিটেক্ট</span>
+                </button>
+                <button data-platform="youtube" class="platform-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-cardbg hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-all">
+                    <i class="fa-brands fa-youtube text-red-500"></i>
+                    <span>YouTube</span>
+                </button>
+                <button data-platform="facebook" class="platform-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-cardbg hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-all">
+                    <i class="fa-brands fa-facebook text-blue-500"></i>
+                    <span>Facebook</span>
+                </button>
+                <button data-platform="tiktok" class="platform-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-cardbg hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-all">
+                    <i class="fa-brands fa-tiktok text-cyan-400"></i>
+                    <span>TikTok</span>
+                </button>
+                <button data-platform="instagram" class="platform-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-cardbg hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-all">
+                    <i class="fa-brands fa-instagram text-pink-500"></i>
+                    <span>Instagram</span>
+                </button>
+            </div>
+
+            <!-- Input Box Container -->
+            <div class="bg-cardbg border border-red-900/50 p-3 sm:p-4 rounded-2xl shadow-2xl fire-glow">
+                <form id="download-form" onsubmit="handleFetchVideo(event)" class="flex flex-col sm:flex-row gap-2">
+                    <div class="relative flex-grow">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-zinc-500">
+                            <i class="fa-solid fa-link text-red-500"></i>
+                        </div>
+                        <input 
+                            type="url" 
+                            id="video-url-input"
+                            required
+                            placeholder="এখানে ভিডিওর লিঙ্ক পেস্ট করুন (Paste Video Link Here)..." 
+                            class="w-full pl-11 pr-24 py-3.5 bg-inputbg text-white placeholder-zinc-500 rounded-xl border border-zinc-700/80 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all text-sm sm:text-base"
+                        >
+                        <!-- Paste Button -->
+                        <button 
+                            type="button" 
+                            onclick="pasteClipboard()"
+                            class="absolute right-2 top-1/2 -translate-y-1/2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs px-3 py-1.5 rounded-lg border border-zinc-600 flex items-center gap-1 transition-colors"
+                        >
+                            <i class="fa-regular fa-clipboard text-red-400"></i>
+                            <span data-en="Paste" data-bn="পেস্ট">পেস্ট</span>
+                        </button>
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        id="fetch-btn"
+                        class="bg-gradient-to-r from-red-600 via-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white font-extrabold px-6 py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all min-w-[160px] tracking-wide"
+                    >
+                        <i class="fa-solid fa-bolt"></i>
+                        <span id="fetch-btn-text" data-en="Fetch Video" data-bn="ভিডিও খুঁজুন">ভিডিও খুঁজুন</span>
+                    </button>
+                </form>
+
+                <!-- Fast Demo Links -->
+                <div class="mt-4 pt-3 border-t border-zinc-800 flex flex-wrap items-center justify-between text-xs text-zinc-400 gap-2">
+                    <span data-en="Quick Demos:" data-bn="স্যাম্পল লিঙ্ক ট্রাই করুন:">স্যাম্পল লিঙ্ক ট্রাই করুন:</span>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="setSampleUrl('youtube')" class="hover:text-red-400 bg-zinc-900 hover:bg-zinc-800 px-2.5 py-1 rounded border border-zinc-800 transition-colors">
+                            <i class="fa-brands fa-youtube text-red-500 mr-1"></i>YouTube Demo
+                        </button>
+                        <button onclick="setSampleUrl('tiktok')" class="hover:text-cyan-400 bg-zinc-900 hover:bg-zinc-800 px-2.5 py-1 rounded border border-zinc-800 transition-colors">
+                            <i class="fa-brands fa-tiktok text-cyan-400 mr-1"></i>TikTok Demo
+                        </button>
+                        <button onclick="setSampleUrl('facebook')" class="hover:text-blue-400 bg-zinc-900 hover:bg-zinc-800 px-2.5 py-1 rounded border border-zinc-800 transition-colors">
+                            <i class="fa-brands fa-facebook text-blue-500 mr-1"></i>FB Reel Demo
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loading-state" class="hidden mt-8 text-center py-8 bg-cardbg/80 rounded-2xl border border-red-900/50">
+                <div class="inline-block relative w-12 h-12">
+                    <div class="w-12 h-12 rounded-full border-4 border-zinc-800 border-t-red-500 animate-spin"></div>
+                </div>
+                <p class="mt-4 text-zinc-300 font-semibold text-sm animate-pulse" data-en="Fetching video information & download links..." data-bn="ভিডিও প্রসেস করা হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...">
+                    ভিডিও প্রসেস করা হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...
+                </p>
+            </div>
+
+            <!-- RESULTS & DOWNLOAD OPTIONS CARD -->
+            <div id="result-card" class="hidden mt-8 bg-cardbg border border-red-900/50 rounded-2xl p-5 sm:p-6 shadow-2xl text-left">
+                
+                <div class="flex flex-col lg:flex-row gap-6">
+                    <!-- Thumbnail Preview -->
+                    <div class="w-full lg:w-2/5 shrink-0">
+                        <div class="relative rounded-xl overflow-hidden aspect-video bg-zinc-950 border border-zinc-800 group">
+                            <img id="res-thumbnail" src="https://placehold.co/600x340/070709/ef4444?text=MR-MEKO+BHAI+VIDEO" alt="Video Thumbnail" class="w-full h-full object-cover">
+                            
+                            <!-- Platform Overlay -->
+                            <div class="absolute top-3 left-3 bg-black/80 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-md font-bold flex items-center gap-1.5 border border-white/10">
+                                <span id="res-platform-icon"><i class="fa-brands fa-youtube text-red-500"></i></span>
+                                <span id="res-platform-name">YouTube</span>
+                            </div>
+
+                            <div class="absolute bottom-3 right-3 bg-black/80 text-white text-xs px-2 py-0.5 rounded font-mono">
+                                <span id="res-duration">03:45</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Formats & Quality Options -->
+                    <div class="w-full lg:w-3/5 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 id="res-title" class="text-lg sm:text-xl font-bold text-white line-clamp-2 leading-snug">
+                                Free Fire Grandmaster Gameplay Highlights (MR-MÊKÖ Bhai Special)
+                            </h3>
+                            <div class="flex items-center gap-4 text-xs text-zinc-400 mt-2">
+                                <span><i class="fa-regular fa-user mr-1 text-red-400"></i><span id="res-author">MR-MÊKÖ Gaming</span></span>
+                                <span><i class="fa-regular fa-eye mr-1 text-amber-400"></i><span id="res-views">500K views</span></span>
+                                <span class="text-emerald-400 font-medium"><i class="fa-solid fa-shield-halved mr-1"></i>No Watermark</span>
+                            </div>
+                        </div>
+
+                        <!-- Quality Selection Grid -->
+                        <div class="space-y-2">
+                            <p class="text-xs font-bold uppercase tracking-wider text-red-400" data-en="Select Quality to Download:" data-bn="ডাউনলোড করার জন্য কোয়ালিটি বেছে নিন:">ডাউনলোড করার জন্য কোয়ালিটি বেছে নিন:</p>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                <!-- 1080p HD -->
+                                <button onclick="triggerDownloadModal('1080p Full HD MP4', '54.2 MB')" class="flex items-center justify-between p-3 rounded-xl bg-inputbg hover:bg-zinc-800 border border-zinc-700 hover:border-red-500 transition-all text-left group">
+                                    <div class="flex items-center gap-2.5">
+                                        <div class="w-7 h-7 rounded-lg bg-red-600/20 text-red-400 flex items-center justify-center text-xs font-black">1080</div>
+                                        <div>
+                                            <div class="text-xs sm:text-sm font-semibold text-white">1080p Full HD</div>
+                                            <div class="text-[10px] text-zinc-400">MP4 Format • ~54.2 MB</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-download text-zinc-400 group-hover:text-red-400 transition-colors text-xs"></i>
+                                </button>
+
+                                <!-- 720p HD -->
+                                <button onclick="triggerDownloadModal('720p HD MP4', '28.5 MB')" class="flex items-center justify-between p-3 rounded-xl bg-inputbg hover:bg-zinc-800 border border-zinc-700 hover:border-red-500 transition-all text-left group">
+                                    <div class="flex items-center gap-2.5">
+                                        <div class="w-7 h-7 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center text-xs font-black">720</div>
+                                        <div>
+                                            <div class="text-xs sm:text-sm font-semibold text-white">720p HD Video</div>
+                                            <div class="text-[10px] text-zinc-400">MP4 Format • ~28.5 MB</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-download text-zinc-400 group-hover:text-red-400 transition-colors text-xs"></i>
+                                </button>
+
+                                <!-- 480p SD -->
+                                <button onclick="triggerDownloadModal('480p SD MP4', '14.1 MB')" class="flex items-center justify-between p-3 rounded-xl bg-inputbg hover:bg-zinc-800 border border-zinc-700 hover:border-red-500 transition-all text-left group">
+                                    <div class="flex items-center gap-2.5">
+                                        <div class="w-7 h-7 rounded-lg bg-zinc-700/50 text-zinc-300 flex items-center justify-center text-xs font-black">480</div>
+                                        <div>
+                                            <div class="text-xs sm:text-sm font-semibold text-white">480p Standard</div>
+                                            <div class="text-[10px] text-zinc-400">MP4 Format • ~14.1 MB</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-download text-zinc-400 group-hover:text-red-400 transition-colors text-xs"></i>
+                                </button>
+
+                                <!-- MP3 Audio -->
+                                <button onclick="triggerDownloadModal('Audio MP3 (320kbps)', '5.2 MB')" class="flex items-center justify-between p-3 rounded-xl bg-inputbg hover:bg-zinc-800 border border-zinc-700 hover:border-red-500 transition-all text-left group">
+                                    <div class="flex items-center gap-2.5">
+                                        <div class="w-7 h-7 rounded-lg bg-emerald-600/20 text-emerald-400 flex items-center justify-center text-xs font-black">MP3</div>
+                                        <div>
+                                            <div class="text-xs sm:text-sm font-semibold text-white">Audio MP3 Only</div>
+                                            <div class="text-[10px] text-zinc-400">320kbps High Quality • ~5.2 MB</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-download text-zinc-400 group-hover:text-red-400 transition-colors text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================================================================= -->
+                <!-- AD SLOT #2: IN-FEED BANNER (300x250 or Native Ad below results)   -->
+                <!-- ================================================================= -->
+                <div class="mt-6 pt-5 border-t border-zinc-800">
+                    <!-- [MONETIZATION NOTE]: Insert Adsterra / AdSense Code Here -->
+                    <div class="ad-placeholder-bg rounded-xl border border-red-900/40 p-4 text-center min-h-[110px] flex flex-col items-center justify-center">
+                        <span class="text-[9px] uppercase font-bold tracking-widest text-red-400/80 mb-1">Sponsored Ad</span>
+                        <div class="text-xs text-zinc-400 flex items-center gap-2">
+                            <i class="fa-solid fa-ad text-amber-400"></i>
+                            <span>[Ad Space #2 - In-Feed / Native Download Page Ad Slot - Paste Script Here]</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- SUPPORTED PLATFORMS SECTION -->
+        <section id="supported-platforms" class="py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white uppercase" data-en="Supported Platforms" data-bn="সমর্থিত ভিডিও প্ল্যাটফর্মসমূহ">
+                    সমর্থিত ভিডিও প্ল্যাটফর্মসমূহ
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <!-- YouTube -->
+                <div class="bg-cardbg p-5 rounded-2xl border border-zinc-800 text-center hover:border-red-600/50 hover:scale-105 transition-all">
+                    <div class="w-12 h-12 rounded-full bg-red-600/10 text-red-500 flex items-center justify-center text-2xl mx-auto mb-3">
+                        <i class="fa-brands fa-youtube"></i>
+                    </div>
+                    <h4 class="font-bold text-white text-base">YouTube</h4>
+                    <p class="text-xs text-zinc-400 mt-1">Shorts, 4K & MP3</p>
+                </div>
+
+                <!-- Facebook -->
+                <div class="bg-cardbg p-5 rounded-2xl border border-zinc-800 text-center hover:border-blue-600/50 hover:scale-105 transition-all">
+                    <div class="w-12 h-12 rounded-full bg-blue-600/10 text-blue-500 flex items-center justify-center text-2xl mx-auto mb-3">
+                        <i class="fa-brands fa-facebook"></i>
+                    </div>
+                    <h4 class="font-bold text-white text-base">Facebook</h4>
+                    <p class="text-xs text-zinc-400 mt-1">Reels & Watch</p>
+                </div>
+
+                <!-- TikTok -->
+                <div class="bg-cardbg p-5 rounded-2xl border border-zinc-800 text-center hover:border-cyan-500/50 hover:scale-105 transition-all">
+                    <div class="w-12 h-12 rounded-full bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-2xl mx-auto mb-3">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </div>
+                    <h4 class="font-bold text-white text-base">TikTok</h4>
+                    <p class="text-xs text-zinc-400 mt-1">No Watermark</p>
+                </div>
+
+                <!-- Instagram -->
+                <div class="bg-cardbg p-5 rounded-2xl border border-zinc-800 text-center hover:border-pink-500/50 hover:scale-105 transition-all">
+                    <div class="w-12 h-12 rounded-full bg-pink-500/10 text-pink-500 flex items-center justify-center text-2xl mx-auto mb-3">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                    <h4 class="font-bold text-white text-base">Instagram</h4>
+                    <p class="text-xs text-zinc-400 mt-1">Reels & Videos</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- HOW TO USE SECTION -->
+        <section id="how-to-use" class="py-10 bg-cardbg/50 border-y border-zinc-800 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white uppercase" data-en="How to Download" data-bn="কীভাবে ডাউনলোড করবেন">
+                        কীভাবে ডাউনলোড করবেন
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Step 1 -->
+                    <div class="bg-cardbg p-5 rounded-2xl border border-zinc-800">
+                        <div class="w-9 h-9 rounded-xl bg-red-600/20 text-red-500 font-black flex items-center justify-center mb-3">1</div>
+                        <h3 class="font-bold text-white text-base mb-1" data-en="Copy Link" data-bn="১. লিংক কপি করুন">১. লিংক কপি করুন</h3>
+                        <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed" data-en="Copy any video link from YouTube, Facebook, TikTok, or Instagram." data-bn="যে ভিডিওটি ডাউনলোড করতে চান তার শেয়ার অপশন থেকে লিংক কপি করুন।">
+                            যে ভিডিওটি ডাউনলোড করতে চান তার শেয়ার অপশন থেকে লিংক কপি করুন।
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-cardbg p-5 rounded-2xl border border-zinc-800">
+                        <div class="w-9 h-9 rounded-xl bg-red-600/20 text-red-500 font-black flex items-center justify-center mb-3">2</div>
+                        <h3 class="font-bold text-white text-base mb-1" data-en="Paste Above" data-bn="২. পেস্ট করুন">২. পেস্ট করুন</h3>
+                        <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed" data-en="Paste the link into the box above and click 'Fetch Video'." data-bn="উপরের ইনপুট বক্সে লিংক পেস্ট করে 'ভিডিও খুঁজুন' বাটনে চাপুন।">
+                            উপরের ইনপুট বক্সে লিংক পেস্ট করে 'ভিডিও খুঁজুন' বাটনে চাপুন।
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-cardbg p-5 rounded-2xl border border-zinc-800">
+                        <div class="w-9 h-9 rounded-xl bg-red-600/20 text-red-500 font-black flex items-center justify-center mb-3">3</div>
+                        <h3 class="font-bold text-white text-base mb-1" data-en="Save to Gallery" data-bn="৩. সেভ করুন">৩. সেভ করুন</h3>
+                        <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed" data-en="Choose 1080p, 720p or MP3 format and save directly to your phone gallery." data-bn="পছন্দের রেজুলেশন সিলেক্ট করে সরাসরি গ্যালারিতে সেভ করে নিন।">
+                            পছন্দের রেজুলেশন সিলেক্ট করে সরাসরি গ্যালারিতে সেভ করে নিন।
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- FAQ ACCORDION -->
+        <section id="faq" class="py-10 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white uppercase" data-en="Frequently Asked Questions" data-bn="সাধারণ প্রশ্নাবলি (FAQ)">
+                    সাধারণ প্রশ্নাবলি (FAQ)
+                </h2>
+            </div>
+
+            <div class="space-y-3">
+                <details class="bg-cardbg border border-zinc-800 rounded-xl p-4 cursor-pointer">
+                    <summary class="flex justify-between items-center font-bold text-white text-sm sm:text-base list-none">
+                        <span data-en="Is this downloader free?" data-bn="এই সাইট ব্যবহার করা কি সম্পূর্ণ ফ্রি?">এই সাইট ব্যবহার করা কি সম্পূর্ণ ফ্রি?</span>
+                        <i class="fa-solid fa-chevron-down text-zinc-500"></i>
+                    </summary>
+                    <p class="text-xs sm:text-sm text-zinc-400 mt-3 leading-relaxed" data-en="Yes, MR-MÊKÖ Bhai Downloader is 100% free with unlimited downloads." data-bn="হ্যাঁ, MR-MÊKÖ Bhai Downloader সম্পূর্ণ ফ্রি এবং কোনো ধরনের চার্জ ছাড়াই আনলিমিটেড ব্যবহার করতে পারবেন।">
+                        হ্যাঁ, MR-MÊKÖ Bhai Downloader সম্পূর্ণ ফ্রি এবং কোনো ধরনের চার্জ ছাড়াই আনলিমিটেড ব্যবহার করতে পারবেন।
+                    </p>
+                </details>
+
+                <details class="bg-cardbg border border-zinc-800 rounded-xl p-4 cursor-pointer">
+                    <summary class="flex justify-between items-center font-bold text-white text-sm sm:text-base list-none">
+                        <span data-en="Does it support TikTok No Watermark?" data-bn="টিকটক ভিডিও কি ওয়াটারমার্ক ছাড়া নামবে?">টিকটক ভিডিও কি ওয়াটারমার্ক ছাড়া নামবে?</span>
+                        <i class="fa-solid fa-chevron-down text-zinc-500"></i>
+                    </summary>
+                    <p class="text-xs sm:text-sm text-zinc-400 mt-3 leading-relaxed" data-en="Yes, TikTok videos are downloaded cleanly without logos or watermarks." data-bn="হ্যাঁ, লোগো বা ওয়াটারমার্ক ছাড়াই টিকটক ভিডিও ক্লিন ডাউনলোড হবে।">
+                        হ্যাঁ, লোগো বা ওয়াটারমার্ক ছাড়াই টিকটক ভিডিও ক্লিন ডাউনলোড হবে।
+                    </p>
+                </details>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ================================================================= -->
+    <!-- AD SLOT #3: 5-SECOND INTERSTITIAL DOWNLOAD MODAL (MONETIZATION)   -->
+    <!-- ================================================================= -->
+    <div id="download-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-cardbg border border-red-900/60 rounded-2xl max-w-md w-full p-6 relative shadow-2xl space-y-5 fire-glow">
+            
+            <button onclick="closeDownloadModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center">
+                <div class="w-12 h-12 rounded-full bg-red-600/20 text-red-500 flex items-center justify-center mx-auto mb-2 text-xl">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                </div>
+                <h3 class="text-lg font-extrabold text-white" id="modal-quality-title">1080p Full HD MP4</h3>
+                <p class="text-xs text-zinc-400" id="modal-file-size">File Size: ~54.2 MB</p>
+            </div>
+
+            <!-- ================================================================= -->
+            <!-- AD SLOT #3 BANNER (300x250 High CPM Banner)                      -->
+            <!-- ================================================================= -->
+            <div class="ad-placeholder-bg rounded-xl border border-red-900/40 p-4 text-center min-h-[160px] flex flex-col items-center justify-center">
+                <span class="text-[9px] uppercase font-bold tracking-widest text-red-400/80 mb-1">Sponsored Advertisement</span>
+                <div class="text-xs text-zinc-300 flex flex-col items-center gap-1">
+                    <i class="fa-solid fa-rectangle-ad text-red-500 text-lg"></i>
+                    <span class="font-semibold text-xs">[Ad Space #3 - 5s Modal Countdown Ad Banner - Paste Script Here]</span>
+                </div>
+            </div>
+
+            <!-- Countdown Timer -->
+            <div class="text-center space-y-1">
+                <div class="text-xs text-zinc-400" id="modal-status-text" data-en="Preparing high speed link..." data-bn="আপনার ফাইল প্রস্তুত করা হচ্ছে...">
+                    আপনার ফাইল প্রস্তুত করা হচ্ছে...
+                </div>
+                <div class="text-3xl font-black text-red-500 font-mono" id="modal-countdown">
+                    5s
+                </div>
+            </div>
+
+            <button 
+                id="start-download-btn" 
+                disabled 
+                onclick="startActualDownload()"
+                class="w-full bg-zinc-800 text-zinc-500 font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-not-allowed"
+            >
+                <i class="fa-solid fa-download"></i>
+                <span id="start-btn-label">অপেক্ষা করুন (Please Wait)...</span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ================================================================= -->
+    <!-- AD SLOT #4: STICKY FOOTER BOTTOM BANNER                           -->
+    <!-- ================================================================= -->
+    <div id="sticky-ad-bar" class="sticky bottom-0 z-30 bg-darkbg/95 backdrop-blur-md border-t border-red-900/40 p-2 text-center flex items-center justify-between px-4">
+        <div class="flex-grow text-center text-xs text-zinc-400 flex items-center justify-center gap-2">
+            <span class="bg-red-600/20 text-red-400 text-[10px] px-1.5 py-0.5 rounded font-bold uppercase">Ad</span>
+            <span>[Ad Space #4 - Bottom Sticky Banner Code Here]</span>
+        </div>
+        <button onclick="document.getElementById('sticky-ad-bar').style.display='none'" class="text-zinc-500 hover:text-white text-xs px-2 py-1">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+
+    <!-- FOOTER -->
+    <footer class="bg-darkbg border-t border-zinc-900 py-6 px-4 text-xs text-zinc-500">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="text-center md:text-left">
+                <p class="font-bold text-zinc-400">&copy; 2026 MR-MÊKÖ Bhai Downloader. All rights reserved.</p>
+                <p class="mt-0.5 text-[11px] text-zinc-600 max-w-md">Disclaimer: MR-MÊKÖ Bhai Downloader does not host copyrighted materials. All files are fetched directly from social platforms.</p>
+            </div>
+
+            <div class="flex items-center gap-4 text-zinc-400">
+                <a href="#" class="hover:text-red-400">Privacy Policy</a>
+                <a href="#" class="hover:text-red-400">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container" class="fixed bottom-16 right-4 z-50 flex flex-col gap-2"></div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        let currentLang = 'bn';
+        let countdownTimer = null;
+        let selectedFormatInfo = { quality: '', size: '' };
+
+        const sampleUrls = {
+            youtube: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            tiktok: 'https://www.tiktok.com/@username/video/7123456789',
+            facebook: 'https://www.facebook.com/watch/?v=123456789'
+        };
+
+        // Language Switcher Toggle
+        document.getElementById('lang-toggle-btn').addEventListener('click', () => {
+            currentLang = currentLang === 'bn' ? 'en' : 'bn';
+            document.getElementById('lang-label').textContent = currentLang === 'bn' ? 'English' : 'বাংলা';
+            
+            document.querySelectorAll('[data-en]').forEach(el => {
+                if (el.dataset[currentLang]) {
+                    el.textContent = el.dataset[currentLang];
+                }
+            });
+        });
+
+        // Set Sample Demo Link
+        function setSampleUrl(platform) {
+            const input = document.getElementById('video-url-input');
+            input.value = sampleUrls[platform] || '';
+            highlightPlatformTab(platform);
+            showToast('স্যাম্পল লিঙ্ক যুক্ত করা হয়েছে!', 'info');
+        }
+
+        // Clipboard Paste Helper
+        async function pasteClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    document.getElementById('video-url-input').value = text;
+                    autoDetectPlatform(text);
+                    showToast('লিঙ্ক পেস্ট করা হয়েছে!', 'success');
+                }
+            } catch (err) {
+                showToast('ম্যানুয়ালি লিঙ্কটি পেস্ট (Ctrl+V) করুন', 'warning');
+            }
+        }
+
+        document.getElementById('video-url-input').addEventListener('input', (e) => {
+            autoDetectPlatform(e.target.value);
+        });
+
+        function autoDetectPlatform(url) {
+            let detected = 'auto';
+            if (url.includes('youtube.com') || url.includes('youtu.be')) detected = 'youtube';
+            else if (url.includes('facebook.com') || url.includes('fb.watch')) detected = 'facebook';
+            else if (url.includes('tiktok.com')) detected = 'tiktok';
+            else if (url.includes('instagram.com')) detected = 'instagram';
+
+            highlightPlatformTab(detected);
+        }
+
+        function highlightPlatformTab(platformKey) {
+            document.querySelectorAll('.platform-tab').forEach(tab => {
+                if (tab.dataset.platform === platformKey) {
+                    tab.classList.add('bg-gradient-to-r', 'from-red-600', 'to-rose-700', 'text-white');
+                    tab.classList.remove('bg-cardbg', 'text-zinc-300');
+                } else {
+                    tab.classList.remove('bg-gradient-to-r', 'from-red-600', 'to-rose-700', 'text-white');
+                    tab.classList.add('bg-cardbg', 'text-zinc-300');
+                }
+            });
+        }
+
+        // Fetch Video Action
+        function handleFetchVideo(e) {
+            e.preventDefault();
+            const urlInput = document.getElementById('video-url-input').value.trim();
+
+            if (!urlInput) {
+                showToast('একটি সঠিক ভিডিও লিঙ্ক দিন!', 'warning');
+                return;
+            }
+
+            document.getElementById('loading-state').classList.remove('hidden');
+            document.getElementById('result-card').classList.add('hidden');
+
+            /* 
+            =====================================================================
+            [BACKEND API INTEGRATION HOOK]:
+            To connect to a real Python (yt-dlp) or Node.js server:
+            
+            fetch('/api/extract?url=' + encodeURIComponent(urlInput))
+                .then(res => res.json())
+                .then(data => { ... })
+            =====================================================================
+            */
+
+            setTimeout(() => {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('result-card').classList.remove('hidden');
+
+                if (urlInput.includes('tiktok')) {
+                    document.getElementById('res-title').textContent = 'Viral Gaming TikTok Video - Free Fire No Watermark HD';
+                    document.getElementById('res-platform-name').textContent = 'TikTok';
+                    document.getElementById('res-platform-icon').innerHTML = '<i class="fa-brands fa-tiktok text-cyan-400"></i>';
+                    document.getElementById('res-thumbnail').src = 'https://placehold.co/600x340/070709/22d3ee?text=MR-MEKO+TikTok+Preview';
+                } else if (urlInput.includes('facebook')) {
+                    document.getElementById('res-title').textContent = 'MR-MÊKÖ Facebook Gaming Reel - High Quality HD Stream';
+                    document.getElementById('res-platform-name').textContent = 'Facebook';
+                    document.getElementById('res-platform-icon').innerHTML = '<i class="fa-brands fa-facebook text-blue-500"></i>';
+                    document.getElementById('res-thumbnail').src = 'https://placehold.co/600x340/070709/3b82f6?text=MR-MEKO+FB+Reel+Preview';
+                } else {
+                    document.getElementById('res-title').textContent = 'Free Fire Grandmaster Gameplay Highlights (MR-MÊKÖ Bhai Special)';
+                    document.getElementById('res-platform-name').textContent = 'YouTube';
+                    document.getElementById('res-platform-icon').innerHTML = '<i class="fa-brands fa-youtube text-red-500"></i>';
+                    document.getElementById('res-thumbnail').src = 'https://placehold.co/600x340/070709/ef4444?text=MR-MEKO+YouTube+Preview';
+                }
+
+                document.getElementById('result-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                showToast('ভিডিও পাওয়া গেছে! রেজুলেশন বেছে নিন।', 'success');
+            }, 1200);
+        }
+
+        // Interstitial Modal with 5s Timer
+        function triggerDownloadModal(quality, size) {
+            selectedFormatInfo = { quality, size };
+            
+            document.getElementById('modal-quality-title').textContent = quality;
+            document.getElementById('modal-file-size').textContent = `File Size: ${size}`;
+            document.getElementById('download-modal').classList.remove('hidden');
+
+            const btn = document.getElementById('start-download-btn');
+            const label = document.getElementById('start-btn-label');
+            const countdownEl = document.getElementById('modal-countdown');
+            
+            btn.disabled = true;
+            btn.className = "w-full bg-zinc-800 text-zinc-500 font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-not-allowed";
+            
+            let timeLeft = 5;
+            countdownEl.textContent = `${timeLeft}s`;
+            label.textContent = currentLang === 'bn' ? `অপেক্ষা করুন (${timeLeft}s)...` : `Please Wait (${timeLeft}s)...`;
+
+            if (countdownTimer) clearInterval(countdownTimer);
+
+            countdownTimer = setInterval(() => {
+                timeLeft--;
+                if (timeLeft > 0) {
+                    countdownEl.textContent = `${timeLeft}s`;
+                    label.textContent = currentLang === 'bn' ? `অপেক্ষা করুন (${timeLeft}s)...` : `Please Wait (${timeLeft}s)...`;
+                } else {
+                    clearInterval(countdownTimer);
+                    countdownEl.textContent = 'রেডি!';
+                    label.textContent = currentLang === 'bn' ? 'ডাউনলোড শুরু করুন' : 'Start Download Now';
+                    btn.disabled = false;
+                    btn.className = "w-full bg-gradient-to-r from-red-600 via-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white font-extrabold py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer animate-pulse";
+                }
+            }, 1000);
+        }
+
+        function closeDownloadModal() {
+            if (countdownTimer) clearInterval(countdownTimer);
+            document.getElementById('download-modal').classList.add('hidden');
+        }
+
+        function startActualDownload() {
+            closeDownloadModal();
+            showToast(`ডাউনলোড শুরু হয়েছে (${selectedFormatInfo.quality})`, 'success');
+        }
+
+        // Notification System
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const bgColors = {
+                success: 'bg-emerald-600',
+                warning: 'bg-amber-600',
+                info: 'bg-zinc-900 border border-red-900/50 text-red-300'
+            };
+
+            toast.className = `${bgColors[type]} text-white text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 animate-in slide-in-from-bottom duration-200`;
+            toast.innerHTML = `
+                <i class="fa-solid fa-fire text-red-400"></i>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'transition-opacity');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
+```
